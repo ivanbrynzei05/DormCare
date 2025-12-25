@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "Subprogram 3";
+    var output = ViewData["Output"];
+}
+
+<h2>Subprogram 3</h2>
+<p>@ViewData["Description"]</p>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Input</label>
+        <textarea class="form-control" name="input"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Run</button>
+</form>
+
+@if (output != null)
+{
+    <h4 class="mt-3">Output</h4>
+    <pre>@output</pre>
+}

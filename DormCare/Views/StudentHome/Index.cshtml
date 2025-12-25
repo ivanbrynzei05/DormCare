@@ -1,0 +1,17 @@
+@model DormCare.Models.Student
+@{
+    ViewData["Title"] = "My Cabinet";
+    var room = ViewData["Room"] as DormCare.Models.Room;
+}
+
+<h2>My Cabinet</h2>
+@if (Model == null)
+{
+    <p>No student record found.</p>
+}
+else
+{
+    <p>Your user id: @Model.UserId</p>
+    <p>Room: @(room != null ? room.Number + " (" + room.Capacity + ")" : "No room")</p>
+    <p><a class="btn btn-primary" asp-controller="Requests" asp-action="Create">Submit Request</a></p>
+}

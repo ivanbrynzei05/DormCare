@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "Create Request";
+}
+
+<h2>Create Request</h2>
+<form method="post">
+    <div class="mb-3">
+        <label>Type</label>
+        <select class="form-control" name="type">
+            <option value="Maintenance">Maintenance</option>
+            <option value="Cleaning">Cleaning</option>
+            <option value="RoomChange">Room change</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Text</label>
+        <textarea class="form-control" name="text"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>

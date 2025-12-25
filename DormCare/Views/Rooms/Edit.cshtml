@@ -1,0 +1,18 @@
+@model DormCare.Models.Room
+@{
+    ViewData["Title"] = "Edit Room";
+}
+
+<h2>Edit Room</h2>
+<form method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="mb-3">
+        <label>Number</label>
+        <input class="form-control" name="Number" value="@Model.Number" />
+    </div>
+    <div class="mb-3">
+        <label>Capacity</label>
+        <input class="form-control" name="Capacity" type="number" value="@Model.Capacity" />
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>

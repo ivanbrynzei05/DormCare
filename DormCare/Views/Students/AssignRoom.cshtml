@@ -1,0 +1,23 @@
+@model DormCare.Models.Student
+@{
+    ViewData["Title"] = "Assign Room";
+    var rooms = ViewData["Rooms"] as List<DormCare.Models.RoomViewModel> ?? new List<DormCare.Models.RoomViewModel>();
+}
+
+<h2>Assign Room for student @Model.Id</h2>
+<form method="post">
+    <div class="mb-3">
+        <label>Room</label>
+        <select class="form-control" name="roomId">
+            <option value="">-- none --</option>
+            @foreach(var r in rooms)
+            {
+                var disabled = r.Occupied >= r.Capacity ? " disabled" : string.Empty;
+                var selected = Model.RoomId == r.Id ? " selected" : string.Empty;
+                var line = $"<option value=\"{r.Id}\"{selected}{disabled}>{r.Number} ({r.Capacity}) — {r.Occupied} occupied</option>";
+                @Html.Raw(line)
+            }
+        </select>
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>

@@ -1,0 +1,24 @@
+@model DormCare.Models.User
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h2>Profile</h2>
+
+<div class="card" style="max-width:640px">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Username</dt>
+            <dd class="col-sm-9">@Model.Username</dd>
+
+            <dt class="col-sm-3">Full name</dt>
+            <dd class="col-sm-9">@Model.FullName</dd>
+
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <dt class="col-sm-3">Phone</dt>
+            <dd class="col-sm-9">@Model.Phone</dd>
+        </dl>
+    </div>
+</div>

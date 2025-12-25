@@ -1,0 +1,24 @@
+@model IEnumerable<DormCare.Models.Student>
+@{
+    ViewData["Title"] = "Students";
+}
+
+<h2>Students</h2>
+<table class="table">
+    <thead><tr><th>UserId</th><th>Room</th><th></th></tr></thead>
+    <tbody>
+    @foreach(var s in Model){
+        <tr>
+            <td>@s.UserId</td>
+            <td>@(s.RoomId?.ToString() ?? "None")</td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-action="AssignRoom" asp-route-id="@s.Id">Assign</a>
+                <form method="post" asp-action="Evict" style="display:inline-block">
+                    <input type="hidden" name="id" value="@s.Id" />
+                    <button class="btn btn-sm btn-danger">Evict</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

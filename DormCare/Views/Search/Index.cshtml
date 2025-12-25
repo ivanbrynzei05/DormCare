@@ -1,0 +1,76 @@
+@model DormCare.Controllers.SearchPageViewModel
+
+@{
+    ViewData["Title"] = "Search Requests";
+}
+
+<h1>Search Requests</h1>
+
+<form method="get" class="mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            <label>From (date/time)</label>
+            <input type="datetime-local" name="fromDate" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label>To (date/time)</label>
+            <input type="datetime-local" name="toDate" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label>Statuses (comma separated)</label>
+            <input type="text" name="statuses" class="form-control" placeholder="New, Done" />
+        </div>
+        <div class="col-md-3">
+            <label>Room numbers (comma separated)</label>
+            <input type="text" name="rooms" class="form-control" placeholder="101A,102B" />
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-3">
+            <label>Student name starts with</label>
+            <input type="text" name="nameStartsWith" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label>Student name ends with</label>
+            <input type="text" name="nameEndsWith" class="form-control" />
+        </div>
+        <div class="col-md-6 align-self-end">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+</form>
+
+@if (Model?.Results != null && Model.Results.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Created</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Student</th>
+                <th>Room</th>
+                <th>Text</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.Results)
+            {
+                <tr>
+                    <td>@r.RequestId</td>
+                    <td>@r.CreatedAt.ToLocalTime().ToString("g")</td>
+                    <td>@r.Type</td>
+                    <td>@r.Status</td>
+                    <td>@r.StudentName</td>
+                    <td>@r.RoomNumber</td>
+                    <td>@r.Text</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">No results. Use the form above to search.</div>
+}

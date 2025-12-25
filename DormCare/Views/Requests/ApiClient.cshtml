@@ -1,0 +1,54 @@
+@{
+    ViewData["Title"] = "Requests API Demo";
+}
+
+<h2>Requests API Demo</h2>
+
+<p>
+    <button id="loadBtn" class="btn btn-primary">Load requests from API (v2)</button>
+    <button id="loadV1Btn" class="btn btn-secondary">Load requests from API (v1 - legacy shape)</button>
+    <a class="btn btn-link" asp-controller="Requests" asp-action="Index">Back</a>
+</p>
+
+<div id="status" class="mt-3"></div>
+
+<table id="results" class="table mt-3" style="display:none;">
+    <thead><tr><th>Id</th><th>StudentId</th><th>Type</th><th>Text</th><th>Status</th><th>CreatedAt</th></tr></thead>
+    <tbody></tbody>
+</table>
+
+<script>
+    function render(list, showCreatedAt) {
+        const table = document.getElementById('results');
+        const tbody = table.querySelector('tbody');
+        tbody.innerHTML = '';
+        for (const r of list) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${r.id ?? r.Id ?? ''}</td>` +
+                `<td>${r.studentId ?? r.StudentId ?? ''}</td>` +
+                `<td>${r.type ?? r.Type ?? ''}</td>` +
+                `<td>${r.text ?? r.Text ?? ''}</td>` +
+                `<td>${r.status ?? r.Status ?? ''}</td>` +
+                `<td>${showCreatedAt ? (r.createdAt ?? r.CreatedAt ?? '') : ''}</td>`;
+            tbody.appendChild(tr);
+        }
+        table.style.display = list.length ? '' : 'none';
+    }
+
+    async function load(url, v) {
+        const status = document.getElementById('status');
+        status.textContent = 'Loading...';
+        try {
+            const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            render(data, v === 2);
+            status.textContent = `Loaded ${data.length} items from v${v}`;
+        } catch (e) {
+            status.textContent = 'Error: ' + e.message;
+        }
+    }
+
+    document.getElementById('loadBtn').addEventListener('click', () => load('/api/v2/requests', 2));
+    document.getElementById('loadV1Btn').addEventListener('click', () => load('/api/v1/requests', 1));
+</script>

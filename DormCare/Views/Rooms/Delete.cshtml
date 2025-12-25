@@ -1,0 +1,30 @@
+@model DormCare.Models.Room
+@{
+    ViewData["Title"] = "Delete Room";
+    var occupied = ViewData["Occupied"] as int? ?? 0;
+}
+
+<h2>Delete Room</h2>
+<div class="mb-3">
+    <p>Room: <strong>@Model.Number</strong></p>
+    <p>Capacity: @Model.Capacity</p>
+    <p>Occupied: @occupied</p>
+</div>
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (occupied > 0)
+{
+    <div class="alert alert-warning">Cannot delete room while students are assigned.</div>
+    <p><a class="btn btn-secondary" asp-action="Index">Back</a></p>
+}
+else
+{
+    <form method="post" asp-action="DeleteConfirmed">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button class="btn btn-danger" type="submit">Delete</button>
+        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+    </form>
+}

@@ -1,0 +1,33 @@
+@model IEnumerable<DormCare.Models.Request>
+@{
+    ViewData["Title"] = "Requests";
+}
+
+<h2>Requests</h2>
+<p>
+    <a class="btn btn-secondary" asp-controller="Search" asp-action="Index">Search Requests</a>
+    <a class="btn btn-primary" asp-controller="Requests" asp-action="ApiClient">Open API Demo</a>
+</p>
+<table class="table">
+    <thead><tr><th>StudentId</th><th>Type</th><th>Text</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+    @foreach(var r in Model){
+        <tr>
+            <td>@r.StudentId</td>
+            <td>@r.Type</td>
+            <td>@r.Text</td>
+            <td>@r.Status</td>
+            <td>
+                <form method="post" asp-action="ChangeStatus">
+                    <input type="hidden" name="id" value="@r.Id" />
+                    <select name="status" class="form-select d-inline-block" style="width:auto;">
+                        <option>New</option>
+                        <option>Done</option>
+                    </select>
+                    <button class="btn btn-sm btn-primary">Change</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

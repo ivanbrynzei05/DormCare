@@ -1,0 +1,22 @@
+@model IEnumerable<DormCare.Models.Room>
+@{
+    ViewData["Title"] = "Rooms";
+}
+
+<h2>Rooms</h2>
+<p><a class="btn btn-primary" asp-action="Create">Create Room</a></p>
+<table class="table">
+    <thead><tr><th>Number</th><th>Capacity</th><th>Actions</th></tr></thead>
+    <tbody>
+    @foreach(var r in Model){
+        <tr>
+            <td>@r.Number</td>
+            <td>@r.Capacity</td>
+            <td>
+                <a class="btn btn-sm btn-secondary" asp-action="Edit" asp-route-id="@r.Id">Edit</a>
+                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@r.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
