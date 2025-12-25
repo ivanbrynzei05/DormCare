@@ -1,0 +1,97 @@
+version: "3.8"
+services:
+    sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=Some_password123
+        ports:
+            - "1433:1433"
+        healthcheck:
+            test:
+                [
+                    "CMD-SHELL",
+                    " /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P Some_password123 -Q 'SELECT 1' || exit 1",
+                ]
+        restart: unless-stopped
+
+    postgres:
+        image: postgres:15
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=dormcare
+        ports:
+            - "5432:5432"
+        restart: unless-stopped
+
+    mysql:
+        image: mysql:8
+        environment:
+            - MYSQL_ROOT_PASSWORD=rootpw
+            - MYSQL_DATABASE=dormcare
+            - MYSQL_USER=dorm
+            - MYSQL_PASSWORD=dormpw
+        ports:
+            - "3306:3306"
+        command: --default-authentication-plugin=mysql_native_password
+        restart: unless-stopped
+
+    adminer:
+        image: adminer
+        ports:
+            - "8080:8080"
+        restart: unless-stopped
+
+    zipkin:
+        image: openzipkin/zipkin:2.23.2
+        ports:
+            - "9411:9411"
+        restart: unless-stopped
+
+    prometheus:
+        image: prom/prometheus:latest
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+        ports:
+            - "9090:9090"
+        restart: unless-stopped
+
+    grafana:
+        image: grafana/grafana:latest
+        ports:
+            - "3000:3000"
+        environment:
+            - GF_SECURITY_ADMIN_PASSWORD=admin
+        restart: unless-stopped
+
+    sonarqube:
+        image: sonarqube:10.6-community
+        ports:
+            - "9000:9000"
+        environment:
+            - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+        volumes:
+            - sonarqube_data:/opt/sonarqube/data
+            - sonarqube_extensions:/opt/sonarqube/extensions
+        restart: unless-stopped
+
+    influxdb:
+        image: influxdb:2.7
+        environment:
+            - DOCKER_INFLUXDB_INIT_MODE=setup
+            - DOCKER_INFLUXDB_INIT_USERNAME=admin
+            - DOCKER_INFLUXDB_INIT_PASSWORD=adminpass
+            - DOCKER_INFLUXDB_INIT_ORG=org
+            - DOCKER_INFLUXDB_INIT_BUCKET=metrics
+        ports:
+            - "8086:8086"
+        restart: unless-stopped
+
+networks:
+    default:
+        name: dormcare-net
+
+volumes:
+    sonarqube_data:
+    sonarqube_extensions:
