@@ -1,0 +1,13 @@
+{
+    "name": "dormcare-api-tests",
+    "version": "1.0.0",
+    "description": "Integration tests for DormCare API using Mocha + Supertest",
+    "scripts": {
+        "test": "mocha --timeout 10000 ./tests/**/*.spec.js"
+    },
+    "devDependencies": {
+        "mocha": "^10.2.0",
+        "supertest": "^6.3.3",
+        "chai": "^4.3.7"
+    }
+}
